@@ -11,7 +11,7 @@ repeat task.wait();
 spawn(function()
     game:GetService"RunService".RenderStepped:Connect(function()
          local Lplr = game.Players.LocalPlayer
-                ocal Char = Lplr.Character
+                local Char = Lplr.Character
           getgenv().oldcframe = Char.HumanoidRootPart.CFrame
      end)
  end)
