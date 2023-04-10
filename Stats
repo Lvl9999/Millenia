@@ -1,5 +1,5 @@
 -- edited by ThroughTheFireAndFlames#9925 (requested by friend)
- 
+
 repeat task.wait();
    until game:IsLoaded() 
          repeat
@@ -13,13 +13,14 @@ spawn(function()
          local Lplr = game.Players.LocalPlayer
                 local Char = Lplr.Character
           getgenv().oldcframe = Char.HumanoidRootPart.CFrame
+          print("....")
      end)
  end)
 spawn(function()
-	while true do
+    game:GetService"RunService".RenderStepped:Connect(function()
 		game.Players.LocalPlayer.Backpack.ServerTraits.AttemptUpgrade:FireServer(game.Players.LocalPlayer.PlayerGui.HUD.Bottom.Stats[getgenv().Stats]);
 		wait(0.1);
-	end
+	end)
 end);
 task.delay(40, function()
 	if not game:IsLoaded() then
@@ -200,13 +201,13 @@ local function LevelSequence()
 end
 local function SwitchSlots(Slot)
 	game:GetService("Players").LocalPlayer.Backpack:WaitForChild("ServerTraits");
-	task.wait(0.3);
+	task.wait(0.4);
 	Player.Backpack.ServerTraits.ChatStart:FireServer(workspace.FriendlyNPCs["Character Slot Changer"]);
-	task.wait(0.6);
+	task.wait(getgenv().SlotDelay);
 	Player.Backpack.ServerTraits.ChatAdvance:FireServer({"Yes"});
-	task.wait(0.6);
+	task.wait(getgenv().SlotDelay);
 	Player.Backpack.ServerTraits.ChatAdvance:FireServer({"k"});
-	task.wait(0.6);
+	task.wait(getgenv().SlotDelay);
 	repeat
 		task.wait(0.05);
 		pcall(function()
@@ -278,9 +279,9 @@ local function Boost()
 		until Player.PlayerGui.HUD.Bottom.ChatGui.Visible 
 		task.wait(0.7);
 		Player.Backpack.ServerTraits.ChatAdvance:FireServer({"Yes"});
-		task.wait(0.8);
+		task.wait(getgenv().KamiDelay);
 		Player.Backpack.ServerTraits.ChatAdvance:FireServer({"k"});
-		task.wait(0.8);
+		task.wait(getgenv().KamiDelay);
 		local ctime = os.clock();
 		Player.Backpack.ServerTraits.ChatAdvance:FireServer({getgenv().Slot});
 		task.wait(0.45);
@@ -339,6 +340,10 @@ local function Boost()
 			task.wait();
 			for i, x in pairs(getconnections(Lplr.PlayerGui.HUD.Bottom.ChatGui[getgenv().Namek].MouseButton1Click)) do
 				task.wait(0.3);
+				local Lplr = game.Players.LocalPlayer
+                local Char = Lplr.Character
+                getgenv().oldcframe = Char.HumanoidRootPart.CFrame
+                print("....")
 				x.Fire();
 			end
 		until not Char 
@@ -371,6 +376,10 @@ local function CheckStatus(Char)
 				pcall(Boost);
 			else
 				SwitchSlots(getgenv().Namek);
+				local Lplr = game.Players.LocalPlayer
+                local Char = Lplr.Character
+                getgenv().oldcframe = Char.HumanoidRootPart.CFrame
+                print("....")
 			end
 		else
 			local Lvl = Player.Character:WaitForChild("Stats"):WaitForChild("Speed").Value * 2;
