@@ -36,24 +36,19 @@ end);
 if not game:IsLoaded() then
 	game.Loaded:Wait();
 end
-getgenv().StealthMode = false;
+getgenv().SexMode = false;
 getgenv().Manual = false;
 task.delay(60, function()
 	if (Mode == "Autofarm") then
 	end
 end);
-local Hits = 0;
-local DragonThrowBought = false;
-local M2Ready = false;
-local Boosted = false;
-local CellQuest = false;
+
 local DoneSomething = false;
 local TimeAt = 0;
 local Mode = "Autofarm";
 local LastBoost = os.clock();
 local TimeAbovePing = 0;
-local PS = true;
-local MaxPing = 240;
+local Sex = true;
 local Player = game:GetService("Players").LocalPlayer;
 local Char = Player.Character or Player.CharacterAdded:Wait();
 local VirtualUser = game:service("VirtualUser");
@@ -81,7 +76,7 @@ game.CoreGui.ChildAdded:Connect(function(v)
 end);
 local function LevelSequence()
 	DoneSomething = true;
-	if (not PS and getgenv().StealthMode) then
+	if (not Sex and getgenv().SexMode) then
 		print("yes");
 	end
 	Player.PlayerGui:WaitForChild("HUD");
@@ -327,6 +322,7 @@ local function Boost()
 		local Lplr = game.Players.LocalPlayer;
 		local Char = Lplr.Character;
 		Lplr.Backpack:WaitForChild("ServerTraits").ChatStart:FireServer(workspace.FriendlyNPCs:FindFirstChild("Character Slot Changer"));
+		task.wait(1);
 		repeat
 			task.wait();
 		until Lplr.PlayerGui.HUD.Bottom.ChatGui.Opt1.Visible == true 
@@ -335,11 +331,12 @@ local function Boost()
 			for b, n in pairs(getconnections(Lplr.PlayerGui.HUD.Bottom.ChatGui.Opt1.MouseButton1Click)) do
 				n.Fire();
 			end
+		task.wait(1);
 		until Lplr.PlayerGui.HUD.Bottom.ChatGui.Opt1.Visible == false 
 		repeat
 			task.wait();
 			for i, x in pairs(getconnections(Lplr.PlayerGui.HUD.Bottom.ChatGui[getgenv().Namek].MouseButton1Click)) do
-				task.wait(0.3);
+				task.wait(1);
 				local Lplr = game.Players.LocalPlayer
                 local Char = Lplr.Character
                 getgenv().oldcframe = Char.HumanoidRootPart.CFrame
@@ -439,7 +436,7 @@ elseif (game.PlaceId == 536102540) then
             end) 
             print('timed out!')
 			end
-			if (game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue() >= MaxPing) then
+			if (game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue() >= getgenv().MaxPing) then
 				TimeAbovePing = TimeAbovePing + 0.1;
 			else
 				TimeAbovePing = 0;
